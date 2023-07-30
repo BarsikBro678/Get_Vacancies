@@ -6,10 +6,10 @@ from terminaltables import AsciiTable
 
 
 def get_hh_vacancies(language, page,):
-	hh_url = "https://api.hh.ru/vacancies/"
-	moscow_hh_id = 1
-	payload = {
-		"text": language,
+    hh_url = "https://api.hh.ru/vacancies/"
+    moscow_hh_id = 1
+    payload = {
+    	"text": language,
 		"area": moscow_hh_id,
 		"page": page,
 	}
