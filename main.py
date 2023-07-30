@@ -17,29 +17,27 @@ def get_hh_vacancies(language, page,):
 	response = get(hh_url, params=payload)
 	response.raise_for_status()
 	return response.json()
-
-
+	
+	
 def get_superjob_vacancies(superjob_token, 
 						   page, 
 						   language):
 	superjob_url = "https://api.superjob.ru/2.0/vacancies/"
 	programmist_key_id = 48
 	payload = {
-	 	"town": "Moscow",
-	 	"keyword": f"Программист {language}",
+		"town": "Moscow",
+		"keyword": f"Программист {language}",
 		"key": programmist_key_id,
 		"page": page,
 	}
 	headers = {"X-Api-App-Id": superjob_token}
 	
-	response = get(superjob_url, 
-				   params=payload, 
 				   headers=headers,)
 	response.raise_for_status()
 	vacancies = response.json()["objects"]
 	return vacancies
-
-
+	
+	
 def predict_rur_salary(salary_from, 
 					   salary_to, 
 					   need_currency, 
@@ -54,7 +52,7 @@ def predict_rur_salary(salary_from,
 		return salary_to * 0.8
 	else:
 		return None
-
+	
 	
 def get_statistic_from_hh_vacancies(language,):
 	rur_vacancies = 0
@@ -66,7 +64,7 @@ def get_statistic_from_hh_vacancies(language,):
 			break
 			
 		vacancies = get_hh_vacancies(language, page)
-
+	
 		for vacancy in vacancies["items"]:
 			if not vacancy.get("salary"):
 				continue
@@ -81,10 +79,10 @@ def get_statistic_from_hh_vacancies(language,):
 				
 			rur_vacancies += 1
 			salary_sum += approximate_salary
-
+	
 	if not rur_vacancies:
 		average_salary = 0
-
+	
 	else:
 		average_salary = salary_sum / rur_vacancies
 	
@@ -94,8 +92,8 @@ def get_statistic_from_hh_vacancies(language,):
 		"average_salary": average_salary,
 	}
 	return languages_statistic
-
-
+	
+	
 def get_statistic_from_superjob_vacancies(language, superjob_token,):
 	vacancies_found = 0
 	vacancies_processed = 0
@@ -120,10 +118,10 @@ def get_statistic_from_superjob_vacancies(language, superjob_token,):
 				
 			vacancies_processed += 1
 			salary_sum += salary
-
+	
 	if not rur_vacancies:
 		average_salary = 0
-
+	
 	else:
 		average_salary = salary_sum / vacancies_processed
 		
@@ -135,13 +133,13 @@ def get_statistic_from_superjob_vacancies(language, superjob_token,):
 	}
 	
 	return superjob_statistic
-
-
+	
+	
 def print_table(languages_statistic, title,):
 	table_data = (
 		["Язык программирования", "Вакансий найдено", "Вакансий обработано", "Средняя зарплата",],
 	)	
-
+	
 	for language_statistic in languages_statistic:
 		table_data += (languange_statistic["vacancies_found"],
 					   languange_statistic["vacancies_processed"],
@@ -152,7 +150,7 @@ def print_table(languages_statistic, title,):
 	
 	print(table_instance.table)
 	print()
-
+	
 	
 def main():
 	superjob_token = os.environ["SUPERJOB_TOKEN"]
@@ -176,7 +174,7 @@ def main():
 	get_statistic_from_superjob_vacancies(language, superjob_token,)
 	
 	print_table(languages_superjob_vacancies, "SuperJob",)
-
-
+	
+	
 if __name__ == "__main__":
 	main()
