@@ -20,8 +20,8 @@ def get_hh_vacancies(language, page,):
 	
 	
 def get_superjob_vacancies(superjob_token, 
-						   page, 
-						   language):
+			   page, 
+			   language):
 	superjob_url = "https://api.superjob.ru/2.0/vacancies/"
 	programmist_key_id = 48
 	payload = {
@@ -71,9 +71,9 @@ def get_statistic_from_hh_vacancies(language,):
 				
 			salary = vacancy["salary"]
 			approximate_salary = predict_rur_salary(salary["from"],
-												salary["to"], 
-												"RUR",
-												salary["currency"],)
+													salary["to"], 
+													"RUR",
+													salary["currency"],)
 			if not predict_salary:
 				continue
 				
