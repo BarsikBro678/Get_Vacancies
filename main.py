@@ -1,6 +1,7 @@
 from itertools import count
 import os
 
+from dotenv import load_dotenv
 from requests import get
 from terminaltables import AsciiTable
 
@@ -153,6 +154,7 @@ def print_table(languages_statistic, title,):
 	
 	
 def main():
+	load_dotenv()
 	superjob_token = os.environ["SUPERJOB_TOKEN"]
 	languages = [
 		"JavaScript",
