@@ -58,13 +58,12 @@ def predict_rur_salary(salary_from,
 def get_statistic_from_hh_vacancies(language,):
 	rur_vacancies = 0
 	salary_sum = 0
-	max_page = 99
+	vacancies = get_hh_vacancies(language, page)
+	max_page = vacancies["pages"]
 	
 	for page in count(0):
 		if page > max_page:
 			break
-			
-		vacancies = get_hh_vacancies(language, page)
 	
 		for vacancy in vacancies["items"]:
 			if not vacancy.get("salary"):
@@ -75,11 +74,14 @@ def get_statistic_from_hh_vacancies(language,):
 													salary["to"], 
 													"RUR",
 													salary["currency"],)
-			if not predict_salary:
+			if not approximate_salary:
 				continue
 				
 			rur_vacancies += 1
 			salary_sum += approximate_salary
+
+			vacancies = get_hh_vacancies(language, page)
+		
 	
 	if not rur_vacancies:
 		average_salary = 0
@@ -99,12 +101,14 @@ def get_statistic_from_superjob_vacancies(language, superjob_token,):
 	vacancies_found = 0
 	vacancies_processed = 0
 	salary_sum = 0
-	max_page = 100
-	
-	for page in range(0, max_page+1):
+	more = True
+
+	while more:
 		page_vacancies = get_superjob_vacancies(superjob_token, 
 												page, 
 												language,)
+
+		more = response["more"]
 		
 		for vacancy in page_vacancies:
 			vacancies_found += 1
