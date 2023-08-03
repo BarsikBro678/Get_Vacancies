@@ -124,7 +124,7 @@ def get_statistic_from_superjob_vacancies(language, superjob_token,):
 			vacancies_processed += 1
 			salary_sum += salary
 	
-	if not rur_vacancies:
+	if not vacancies_processed:
 		average_salary = 0
 	
 	else:
