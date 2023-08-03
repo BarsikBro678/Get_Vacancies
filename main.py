@@ -56,7 +56,7 @@ def predict_rur_salary(salary_from,
 	
 	
 def get_statistic_from_hh_vacancies(language,):
-	rur_vacancies = 0
+	vacancies_processed = 0
 	salary_sum = 0
 	vacancies = get_hh_vacancies(language, page)
 	max_page = vacancies["pages"]
@@ -77,21 +77,21 @@ def get_statistic_from_hh_vacancies(language,):
 			if not approximate_salary:
 				continue
 				
-			rur_vacancies += 1
+			vacancies_processed += 1
 			salary_sum += approximate_salary
 
 			vacancies = get_hh_vacancies(language, page)
 		page += 1
 	
-	if not rur_vacancies:
+	if not vacancies_processed:
 		average_salary = 0
 	
 	else:
-		average_salary = salary_sum / rur_vacancies
+		average_salary = salary_sum / vacancies_processed
 	
 	languages_statistic = {
 		"vacancies_found": vacancies["found"],
-		"vacancies_processed": rur_vacancies,
+		"vacancies_processed": vacancies_processed,
 		"average_salary": average_salary,
 	}
 	return languages_statistic
@@ -105,8 +105,8 @@ def get_statistic_from_superjob_vacancies(language, superjob_token,):
 
 	while more:
 		page_vacancies = get_superjob_vacancies(superjob_token, 
-												page, 
-												language,)
+							page, 
+							language,)
 
 		more = response["more"]
 		
@@ -141,16 +141,16 @@ def get_statistic_from_superjob_vacancies(language, superjob_token,):
 	
 	
 def print_table(languages_statistic, title,):
-	table_data = (
+	params_to_table = (
 		["Язык программирования", "Вакансий найдено", "Вакансий обработано", "Средняя зарплата",],
 	)	
 	
 	for language_statistic in languages_statistic:
 		table_data += (languange_statistic["vacancies_found"],
-					   languange_statistic["vacancies_processed"],
-					   languange_statistic["average_salary"],)
+			       languange_statistic["vacancies_processed"],
+			       languange_statistic["average_salary"],)
 		
-	table_instance = AsciiTable(table_data, title)
+	table_instance = AsciiTable(params_to_table, title)
 	table_instance.justify_columns[2] = "right"
 	
 	print(table_instance.table)
