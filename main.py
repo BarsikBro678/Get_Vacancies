@@ -10,7 +10,7 @@ def get_hh_vacancies(language, page,):
 	hh_url = "https://api.hh.ru/vacancies/"
 	moscow_hh_id = 1
 	payload = {
-    		"text": language,
+    	"text": language,
 		"area": moscow_hh_id,
 		"page": page,
 	}
@@ -21,8 +21,8 @@ def get_hh_vacancies(language, page,):
 	
 	
 def get_superjob_vacancies(superjob_token, 
-			   page, 
-			   language):
+						   page, 
+			               language):
 	superjob_url = "https://api.superjob.ru/2.0/vacancies/"
 	programmist_key_id = 48
 	payload = {
@@ -107,8 +107,8 @@ def get_statistic_from_superjob_vacancies(language, superjob_token,):
 
 	while more:
 		page_vacancies = get_superjob_vacancies(superjob_token, 
-							page, 
-							language,)
+												page, 
+												language,)
 
 		more = response["more"]
 		
