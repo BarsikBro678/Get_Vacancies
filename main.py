@@ -81,7 +81,7 @@ def get_statistic_from_hh_vacancies(language,):
 			salary_sum += approximate_salary
 
 			vacancies = get_hh_vacancies(language, page)
-		
+		page += 1
 	
 	if not rur_vacancies:
 		average_salary = 0
