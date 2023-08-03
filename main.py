@@ -40,9 +40,9 @@ def get_superjob_vacancies(superjob_token,
 	
 	
 def predict_rur_salary(salary_from, 
-					   salary_to, 
-					   need_currency, 
-					   salary_currency):
+		       salary_to, 
+		       need_currency, 
+		       salary_currency):
 	if salary_currency != need_currency:
 		return None
 	if salary_from and salary_to:
@@ -71,9 +71,9 @@ def get_statistic_from_hh_vacancies(language,):
 				
 			salary = vacancy["salary"]
 			approximate_salary = predict_rur_salary(salary["from"],
-													salary["to"], 
-													"RUR",
-													salary["currency"],)
+								salary["to"], 
+								"RUR",
+								salary["currency"],)
 			if not approximate_salary:
 				continue
 				
