@@ -32,8 +32,10 @@ def get_superjob_vacancies(superjob_token,
 		"page": page,
 	}
 	headers = {"X-Api-App-Id": superjob_token}
-	
-				   headers=headers,)
+
+	response = get(url,
+		       params=payload,
+		       headers=headers,)
 	response.raise_for_status()
 	vacancies = response.json()["objects"]
 	return vacancies
