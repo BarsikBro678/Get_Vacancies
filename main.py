@@ -60,13 +60,12 @@ def predict_rur_salary(salary_from,
 def get_statistic_from_hh_vacancies(language,):
 	vacancies_processed = 0
 	salary_sum = 0
-	vacancies = get_hh_vacancies(language, page)
-	max_page = vacancies["pages"]
 	
 	for page in count(0):
 		if page > max_page:
 			break
-	
+		vacancies = get_hh_vacancies(language, page)
+		max_page = vacancies["pages"]
 		for vacancy in vacancies["items"]:
 			if not vacancy.get("salary"):
 				continue
@@ -82,7 +81,6 @@ def get_statistic_from_hh_vacancies(language,):
 			vacancies_processed += 1
 			salary_sum += approximate_salary
 
-			vacancies = get_hh_vacancies(language, page)
 		page += 1
 	
 	if not vacancies_processed:
