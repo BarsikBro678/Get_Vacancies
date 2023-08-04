@@ -20,9 +20,7 @@ def get_hh_vacancies(language, page,):
 	return response.json()
 	
 	
-def get_superjob_vacancies(superjob_token, 
-						   page, 
-			               language):
+def get_superjob_vacancies(superjob_token, page, language,):
 	superjob_url = "https://api.superjob.ru/2.0/vacancies/"
 	programmist_key_id = 48
 	payload = {
@@ -33,18 +31,13 @@ def get_superjob_vacancies(superjob_token,
 	}
 	headers = {"X-Api-App-Id": superjob_token}
 
-	response = get(url,
-		       	   params=payload,
-		           headers=headers,)
+	response = get(url, params=payload, headers=headers,)
 	response.raise_for_status()
 	vacancies = response.json()["objects"]
 	return vacancies
 	
 	
-def predict_rur_salary(salary_from, 
-		       		   salary_to, 
-		       		   need_currency, 
-		               salary_currency):
+def predict_rur_salary(salary_from, salary_to, need_currency, salary_currency):
 	if salary_currency != need_currency:
 		return None
 	if salary_from and salary_to:
@@ -71,10 +64,8 @@ def get_statistic_from_hh_vacancies(language,):
 				continue
 				
 			salary = vacancy["salary"]
-			approximate_salary = predict_rur_salary(salary["from"],
-													salary["to"], 
-													"RUR",
-													salary["currency"],)
+			approximate_salary = predict_rur_salary(salary["from"], salary["to"], "RUR", salary["currency"],)
+			
 			if not approximate_salary:
 				continue
 				
@@ -104,20 +95,14 @@ def get_statistic_from_superjob_vacancies(language, superjob_token,):
 	more = True
 
 	while more:
-		page_vacancies = get_superjob_vacancies(superjob_token, 
-												page, 
-												language,)
+		page_vacancies = get_superjob_vacancies(superjob_token, page, language,)
 
 		more = response["more"]
 		
 		for vacancy in page_vacancies:
 			vacancies_found += 1
-			salary = predict_rur_salary(
-				vacancy["payment_from"], 
-				vacancy["payment_to"], 
-				"rub", 
-				vacancy["currency"],
-			)
+			salary = predict_rur_salary(vacancy["payment_from"], vacancy["payment_to"], "rub", vacancy["currency"],)
+			
 			if not salary:
 				continue
 				
@@ -146,9 +131,7 @@ def print_table(languages_statistic, title,):
 	)	
 	
 	for language_statistic in languages_statistic:
-		table_data += (languange_statistic["vacancies_found"],
-			       	   languange_statistic["vacancies_processed"],
-			      	   languange_statistic["average_salary"],)
+		table_data += (languange_statistic["vacancies_found"], languange_statistic["vacancies_processed"], languange_statistic["average_salary"],)
 		
 	table_instance = AsciiTable(params_to_table, title)
 	table_instance.justify_columns[2] = "right"
