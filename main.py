@@ -159,8 +159,7 @@ def main():
 	languages_superjob_vacancies = {}
 	
 	for language in languages:
-		languages_superjob_vacancies[language] = 
-	get_statistic_from_superjob_vacancies(language, superjob_token,)
+		languages_superjob_vacancies[language] = get_statistic_from_superjob_vacancies(language, superjob_token,)
 	
 	print_table(languages_superjob_vacancies, "SuperJob",)
 	
